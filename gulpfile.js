@@ -1,132 +1,148 @@
-const gulp = require('gulp');
-// const browserSync = require('browser-sync');
-// const ssi = require('connect-ssi');
-// const slim = require('gulp-slim');
-// const sass = require('gulp-sass');
-// const sourcemaps = require('gulp-sourcemaps');
-// const autoprefixer = require('gulp-autoprefixer');
-// const glob = require('gulp-sass-glob');
-// const notify = require('gulp-notify');
-// const plumber = require('gulp-plumber');
-// const babel = require('gulp-babel');
-// const uglify = require('gulp-uglify-es').default;
-// const imagemin = require('gulp-imagemin');
-// const mozjpeg = require('imagemin-mozjpeg');
-// const pngquant = require('imagemin-pngquant');
-// const changed = require('gulp-changed');
+'use strict';
+
+const { watch, series, task, gulp, src, dest, parallel } = require('gulp')
+// Plugins
+const GULP_NOTIFY       = require('gulp-notify')
+const GULP_PLUMBER      = require('gulp-plumber')
+const GULP_BROWSER_SYNC = require('browser-sync').create()
+const GULP_SASS         = require('gulp-sass')
+const GULP_SOURCEMAPS   = require('gulp-sourcemaps')
+const GULP_SASS_GLOB    = require('gulp-sass-glob')
+const GULP_AUTOPREFIXER = require('gulp-autoprefixer')
+const GULP_BABEL = require('gulp-babel');
+const GULP_UGLIFY = require('gulp-uglify-es').default;
+const GULP_SLIM = require('gulp-slim');
+const GULP_IMAGEMIN = require('gulp-imagemin');
+const IMAGEMIN_MOZJPEG = require('imagemin-mozjpeg');
+const IMAGEMIN_PNGQUANT = require('imagemin-pngquant');
+const GULP_CHANGED = require('gulp-changed');
 // const htmlhint = require('gulp-htmlhint');
 // const csslint = require('gulp-csslint');
 // const eslint = require('gulp-eslint');
 
-// const paths = {
-//   rootDir: 'dist/',
-//   slimSrc: 'src/slim/**/*.slim',
-//   scssSrc: 'src/assets/scss/**/*.scss',
-//   jsSrc: 'src/assets/js/**/*.js',
-//   imgSrc: 'src/assets/img/**/*',
-//   outSlim: 'dist/',
-//   outCss: 'dist/assets/css',
-//   outJs: 'dist/assets/js',
-//   outImg: 'dist/assets/img',
-//   mapsCss: 'dist/assets/css/maps',
-//   mapsJs: 'dist/assets/js/maps'
-// };
+/*
+ * Path Settings
+ */
+const GULP_PATHS = {
+  ROOT_DIR: 'dist/',
+  ALL_DIR: 'dist/**/*.index.html',
+  SRC_SLIM: 'src/slim/**/*.slim',
+  SRC_SASS: 'src/assets/scss/**/*.scss',
+  SRC_JS: 'src/assets/js/**/*.js',
+  SRC_IMG: 'src/assets/img/**/*',
+  OUT_SLIM: 'dist/',
+  OUT_CSS: 'dist/assets/css',
+  OUT_JS: 'dist/assets/js',
+  OUT_IMG: 'dist/assets/img',
+};
 
-// browser sync
-// function browserSyncFunc(done){
-//   browserSync.init({
-//     server: {
-//       baseDir: paths.rootDir,
-//         middleware: [
-//           ssi({
-//             baseDir: paths.rootDir,
-//             notify: false,
-//             ext: '.html'
-//           })
-//         ]
-//       },
-//       port: 4000,
-//       reloadOnRestart: true
-//     });
-//   done();
-// }
+/*
+ * Browser-sync Task
+ */
+const browserSyncAbility = () =>
+  GULP_BROWSER_SYNC.init({
+    server: {baseDir:GULP_PATHS.ROOT_DIR},
+    port: 8080,
+    reloadOnRestart: true
+  });
+const watchBrowserSync = () => watch(GULP_PATHS.ROOT_DIR, browserSyncAbility)
 
-// slim
-// function slimFunc() {
-//   return gulp.src(paths.slimSrc)
-//   .pipe(plumber({
-//     errorHandler: notify.onError('<%= error.message %>'),
-//   }))
-//   .pipe(slim({
-//     require: 'slim/include',
-//     pretty: true,
-//     options: 'include_dirs=["src/slim/inc"]'
-//   }))
-//   .pipe(gulp.dest(paths.outSlim))
-//   .pipe(browserSync.stream())
-// }
+// const browserReloadAbility = () =>
+//   GULP_BROWSER_SYNC.reload()
 
-// sass
-// function sassFunc() {
-//   return gulp.src(paths.scssSrc)
-//   .pipe(sourcemaps.init())
-//   .pipe(plumber({
-//     errorHandler: notify.onError('<%= error.message %>'),
-//   }))
-//   .pipe(glob())
-//   .pipe(sass({
-//     outputStyle: 'compressed'
-//   }))
-//   .pipe(autoprefixer({
-//     overrideBrowserslist: ['last 2 versions', 'ie >= 11', 'Android >= 4'],
-//     cascade: false
-//   }))
-//   .pipe(sourcemaps.write('maps'))
-//   .pipe(gulp.dest(paths.outCss))
-//   .pipe(browserSync.stream());
-// }
+/*
+ * Slim Task
+ */
+const compileSlim = () =>
+  src(GULP_PATHS.SRC_SLIM)
+  .pipe(GULP_PLUMBER({errorHandler:GULP_NOTIFY.onError('<%= error.message %>')}))
+  .pipe(GULP_SLIM({
+    require: 'slim/include',
+    pretty: true,
+    options: 'include_dirs=["src/slim/inc"]'
+  }))
+  .pipe(dest(GULP_PATHS.OUT_SLIM))
+  .pipe(GULP_BROWSER_SYNC.stream())
+// 相対パスで外部ファイルがうまく読み込めない
 
-// js
-// function jsFunc() {
-//   return gulp.src(paths.jsSrc)
-//   .pipe(sourcemaps.init())
-//   .pipe(plumber({
-//     errorHandler: notify.onError('<%= error.message %>'),
-//   }))
-//   .pipe(babel())
-//   .pipe(uglify({}))
-//   .pipe(sourcemaps.write('maps'))
-//   .pipe(gulp.dest(paths.outJs))
-//   .pipe(browserSync.stream());
-// }
+/*
+* Scss Task
+*/
+const compileSass = () =>
+  src(GULP_PATHS.SRC_SASS)
+  .pipe(GULP_SOURCEMAPS.init())
+  .pipe(GULP_PLUMBER({errorHandler:GULP_NOTIFY.onError('<%= error.message %>')}))
+  .pipe(GULP_SASS_GLOB())
+  .pipe(GULP_SASS({outputStyle:'compressed'}))
+  .pipe(GULP_AUTOPREFIXER({cascade:false}))
+  .pipe(GULP_SOURCEMAPS.write('maps'))
+  .pipe(dest(GULP_PATHS.OUT_CSS))
+  .pipe(GULP_BROWSER_SYNC.stream())
 
-// img
-// function imgFunc() {
-//   return gulp.src(paths.imgSrc)
-//   .pipe(changed(paths.outImg))
-//   .pipe(gulp.dest(paths.outImg))
-//   .pipe(imagemin(
-//     [
-//       mozjpeg({
-//         quality: 80
-//       }),
-//       pngquant()
-//     ],
-//     {
-//       verbose: true
-//     }
-//   ))
-// }
+/*
+* Javascript Task
+*/
+const compileJs = () =>
+  src(GULP_PATHS.SRC_JS)
+  .pipe(GULP_SOURCEMAPS.init())
+  .pipe(GULP_PLUMBER({errorHandler:GULP_NOTIFY.onError('<%= error.message %>')}))
+  .pipe(GULP_BABEL())
+  .pipe(GULP_UGLIFY({compress:true}))
+  .pipe(GULP_SOURCEMAPS.write('maps'))
+  .pipe(dest(GULP_PATHS.OUT_JS))
+  .pipe(GULP_BROWSER_SYNC.stream())
 
-// watch
-// function watchFunc(done) {
-//   gulp.watch(paths.slimSrc, gulp.parallel(slimFunc));
-//   gulp.watch(paths.scssSrc, gulp.parallel(sassFunc));
-//   gulp.watch(paths.jsSrc, gulp.parallel(jsFunc));
-//   gulp.watch(paths.imgSrc, gulp.parallel(imgFunc));
-//   done();
-// }
+/*
+* Images Task
+*/
+const compressImg = () =>
+  src(GULP_PATHS.SRC_IMG)
+  .pipe(GULP_CHANGED(GULP_PATHS.OUT_IMG))
+  .pipe(
+    GULP_IMAGEMIN([
+      IMAGEMIN_PNGQUANT({
+        quality: [.60, .70], // 60~70
+        speed: 1
+      }),
+      IMAGEMIN_MOZJPEG({quality: 65}),
+      GULP_IMAGEMIN.svgo(),
+      GULP_IMAGEMIN.optipng(),
+      GULP_IMAGEMIN.gifsicle({optimizationLevel: 3})
+    ])
+  )
+  .pipe(dest(GULP_PATHS.OUT_IMG))
 
+/*
+* Watch Files
+*/
+const watchSassFiles = () => watch(GULP_PATHS.SRC_SASS, compileSass)
+const watchJsFiles = () => watch(GULP_PATHS.SRC_JS, compileJs)
+const watchSlimFiles = () => watch(GULP_PATHS.SRC_SLIM, compileSlim)
+const watchImgFiles = () => watch(GULP_PATHS.SRC_IMG, compressImg)
+
+
+/*
+* Default Task
+*/
+const watchStaticContents = () =>
+  watchSassFiles()
+  watchJsFiles()
+  watchSlimFiles()
+  watchImgFiles()
+
+const defaultTask = () =>
+  watchBrowserSync()
+  watchStaticContents()
+  compileSass()
+  compileJs()
+  compileSlim()
+  compressImg()
+
+exports.default = defaultTask
+
+/*
+* lint Task
+*/
 // lint
 // function htmlLint() {
 //   return gulp.src('dist/**/*.html')
@@ -147,13 +163,6 @@ const gulp = require('gulp');
 //   .pipe(eslint.failAfterError())
 // }
 
-// scripts tasks
-// gulp.task('default',
-// gulp.parallel(
-//   browserSyncFunc, watchFunc, slimFunc, sassFunc, jsFunc, imgFunc
-//   )
-// );
-
 // gulp.task('html-lint', htmlLint);
 // gulp.task("css-lint", cssLint);
 // gulp.task('eslint', esLint);
@@ -162,10 +171,3 @@ const gulp = require('gulp');
 //   htmlLint, cssLint, esLint
 //   )
 // );
-
-function defaultTask(cb) {
-  // place code for your default task here
-  cb();
-}
-
-exports.default = defaultTask

@@ -1,8 +1,9 @@
-var date = new Date();
-var element = document.getElementById('time');
+let date = new Date();
+// let element = document.getElementById('time')
 
-function getTime(date){
-    return data.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds();
+const getTime = (date) => {
+    return date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds()
 }
 //returnの最初のdateをわざとdataと間違えて記述してみました。
-element.innerHTML = getTime(date);
+// element.innerHTML = getTime(date)
+console.log(getTime(date))

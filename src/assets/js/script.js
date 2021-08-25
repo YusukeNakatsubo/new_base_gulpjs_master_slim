@@ -7,3 +7,4 @@ const getTime = (date) => {
 //returnの最初のdateをわざとdataと間違えて記述してみました。
 // element.innerHTML = getTime(date)
 console.log(getTime(date))
+console.log('test')

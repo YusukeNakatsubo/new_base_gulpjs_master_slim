@@ -80,7 +80,10 @@
   },
   "homepage": "https://github.com/YusukeNakatsubo/new_base_gulpjs_master_slim#readme",
   "devDependencies": {
+    "babel-loader": "^8.2.2",
     "gulp-sass": "^5.0.0",
-    "sass": "^1.38.0"
+    "sass": "^1.38.0",
+    "webpack": "^5.51.1",
+    "webpack-stream": "^6.1.2"
   }
 }

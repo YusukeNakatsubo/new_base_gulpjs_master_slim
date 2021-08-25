@@ -17,11 +17,6 @@ const GULP_AUTOPREFIXER   = require('gulp-autoprefixer')
 const WEBPACK             = require('webpack')
 const GULP_WEBPACK_STREAM = require('webpack-stream')
 const WEB_PACK_CONFIG     = require("./webpack.config");
-// const GULP_MODE           = require('gulp-mode')({
-//                               modes: ['production', 'development'],
-//                               default: 'development',
-//                               verbose: false,
-//                             })
 const GULP_SLIM           = require('gulp-slim')
 const GULP_IMAGE          = require('gulp-image')
 const GULP_CHANGED        = require('gulp-changed')
@@ -113,6 +108,8 @@ const compileSass = () =>
 
 const bundleJs = () => {
   GULP_WEBPACK_STREAM(WEB_PACK_CONFIG, WEBPACK)
+    .pipe(GULP_SOURCEMAPS.init())
+    .pipe(GULP_SOURCEMAPS.write('maps'))
     .pipe(dest(GULP_PATHS.OUT_JS))
     .pipe(GULP_BROWSER_SYNC.stream())
 }

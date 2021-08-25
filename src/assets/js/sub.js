@@ -1,3 +1,3 @@
-export function hello() {
-  alert('Call HelloMethod!');
+export function sayHello() {
+  alert('Hello, world');
 }

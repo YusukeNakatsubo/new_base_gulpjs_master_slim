@@ -16,7 +16,7 @@
   \*******************************/
 /***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _sub__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./sub */ \"./src/assets/js/sub.js\");\n// sub.jsファイルを読み込む\n // sub.jsに定義されたJavaScriptを実行する\n\n(0,_sub__WEBPACK_IMPORTED_MODULE_0__.hello)();\nconsole.log('test');\n\n//# sourceURL=webpack://new_base_gulpjs_master_slim/./src/assets/js/main.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _sub__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./sub */ \"./src/assets/js/sub.js\");\n\n(0,_sub__WEBPACK_IMPORTED_MODULE_0__.sayHello)();\n\n//# sourceURL=webpack://new_base_gulpjs_master_slim/./src/assets/js/main.js?");
 
 /***/ }),
 
@@ -26,7 +26,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _sub
   \******************************/
 /***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"hello\": function() { return /* binding */ hello; }\n/* harmony export */ });\nfunction hello() {\n  alert('Call HelloMethod!');\n}\n\n//# sourceURL=webpack://new_base_gulpjs_master_slim/./src/assets/js/sub.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"sayHello\": function() { return /* binding */ sayHello; }\n/* harmony export */ });\nfunction sayHello() {\n  alert('Hello, world');\n}\n\n//# sourceURL=webpack://new_base_gulpjs_master_slim/./src/assets/js/sub.js?");
 
 /***/ })
 
@@ -94,3 +94,4 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
 /******/ 	
 /******/ })()
 ;
+//# sourceMappingURL=maps/bundle.js.map

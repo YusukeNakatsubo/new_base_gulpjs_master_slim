@@ -1,6 +1,3 @@
-// sub.jsファイルを読み込む
-import {hello} from "./sub";
+import {sayHello} from './sub';
 
-// sub.jsに定義されたJavaScriptを実行する
-hello();
-console.log('test')
+sayHello();

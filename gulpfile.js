@@ -12,8 +12,8 @@ const GULP_SASS           = require('gulp-sass')(require('sass'))
 const GULP_SOURCEMAPS     = require('gulp-sourcemaps')
 const GULP_SASS_GLOB      = require('gulp-sass-glob')
 const GULP_AUTOPREFIXER   = require('gulp-autoprefixer')
-// const GULP_BABEL          = require('gulp-babel')
-// const GULP_UGLIFY         = require('gulp-uglify-es').default
+const GULP_BABEL          = require('gulp-babel')
+const GULP_UGLIFY         = require('gulp-uglify-es').default
 const WEBPACK             = require('webpack')
 const GULP_WEBPACK_STREAM = require('webpack-stream')
 const WEB_PACK_CONFIG     = require('./webpack.config');
@@ -95,24 +95,24 @@ const compileSass = () =>
 /*
 * Javascript Task
 */
-// const compileJs = () =>
-//   src(GULP_PATHS.SRC_JS)
-//   .pipe(GULP_SOURCEMAPS.init())
-//   .pipe(GULP_PLUMBER({errorHandler:GULP_NOTIFY.onError('<%= error.message %>')}))
-//   .pipe(GULP_BABEL())
-//   .pipe(GULP_UGLIFY({compress:true}))
-//   .pipe(GULP_SOURCEMAPS.write('maps'))
-//   .pipe(dest(GULP_PATHS.OUT_JS))
-//   .pipe(GULP_BROWSER_SYNC.stream())
+const compileJs = () =>
+  src(GULP_PATHS.SRC_JS)
+  .pipe(GULP_SOURCEMAPS.init())
+  .pipe(GULP_PLUMBER({errorHandler:GULP_NOTIFY.onError('<%= error.message %>')}))
+  .pipe(GULP_BABEL())
+  .pipe(GULP_UGLIFY({compress:true}))
+  .pipe(GULP_SOURCEMAPS.write('maps'))
+  .pipe(dest(GULP_PATHS.OUT_JS))
+  .pipe(GULP_BROWSER_SYNC.stream())
 // -> Migrate to webpack
 
-const bundleJs = () => {
-  GULP_WEBPACK_STREAM(WEB_PACK_CONFIG, WEBPACK)
-    .pipe(GULP_SOURCEMAPS.init())
-    .pipe(GULP_SOURCEMAPS.write('maps'))
-    .pipe(dest(GULP_PATHS.OUT_JS))
-    .pipe(GULP_BROWSER_SYNC.stream())
-}
+// const bundleJs = () => {
+//   GULP_WEBPACK_STREAM(WEB_PACK_CONFIG, WEBPACK)
+//     .pipe(GULP_SOURCEMAPS.init())
+//     .pipe(GULP_SOURCEMAPS.write('maps'))
+//     .pipe(dest(GULP_PATHS.OUT_JS))
+//     .pipe(GULP_BROWSER_SYNC.stream())
+// }
 
 /*
 * Images Task
@@ -138,7 +138,8 @@ const compressImg = () =>
 * Watch Files
 */
 const watchSassFiles = () => watch(GULP_PATHS.SRC_SASS, compileSass)
-const watchJsFiles = () => watch(GULP_PATHS.SRC_JS, bundleJs)
+const watchJsFiles = () => watch(GULP_PATHS.SRC_JS, compileJs)
+// const watchJsFiles = () => watch(GULP_PATHS.SRC_JS, bundleJs)
 const watchSlimFiles = () => watch(GULP_PATHS.SRC_SLIM, compileSlim)
 const watchImgFiles = () => watch(GULP_PATHS.SRC_IMG, compressImg)
 
@@ -156,8 +157,8 @@ const defaultTask = () =>
   watchBrowserSync()
   watchStaticContents()
   compileSass()
-  // compileJs()
-  bundleJs()
+  compileJs()
+  // bundleJs()
   compileSlim()
   compressImg()
 

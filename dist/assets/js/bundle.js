@@ -16,7 +16,7 @@
   \*******************************/
 /***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _sub__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./sub */ \"./src/assets/js/sub.js\");\n\n(0,_sub__WEBPACK_IMPORTED_MODULE_0__.sayHello)();\n\n//# sourceURL=webpack://new_base_gulpjs_master_slim/./src/assets/js/main.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _sub__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./sub */ \"./src/assets/js/sub.js\");\n\n(0,_sub__WEBPACK_IMPORTED_MODULE_0__.sayHello)();\nconsole.log('Hello, world');\n\n//# sourceURL=webpack://new_base_gulpjs_master_slim/./src/assets/js/main.js?");
 
 /***/ }),
 

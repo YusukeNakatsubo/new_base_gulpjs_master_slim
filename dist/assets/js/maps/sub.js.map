@@ -1,0 +1,1 @@
+{"version":3,"sources":["sub.js"],"names":["sayHello","alert"],"mappings":"aAAO,SAASA,WACdC,MAAM","file":"../sub.js","sourcesContent":["export function sayHello() {\n  alert('Hello, world!');\n}"]}

@@ -1,3 +1,4 @@
-import {sayHello} from './sub';
+// import {sayHello} from './sub';
 
-sayHello();
+// sayHello();
+console.log('Hello, Hello')

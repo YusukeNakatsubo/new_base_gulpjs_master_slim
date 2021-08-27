@@ -31,16 +31,16 @@ const GULP_ESLINT               = require('gulp-eslint')
  * Path Settings
  */
 const GULP_PATHS = {
-  ROOT_DIR:    'dist/',
-  ALL_DIR:     'dist/**/*.index.html',
-  SRC_SLIM:    'src/slim/**/*.slim',
-  SRC_SASS:    'src/assets/scss/**/*.scss',
+  ROOT_DIR: 'dist/',
+  ALL_DIR:  'dist/**/*.index.html',
+  SRC_SLIM: 'src/slim/**/*.slim',
+  SRC_SASS: 'src/assets/scss/**/*.scss',
   SRC_JS:   'src/assets/js/**/*.js',
-  SRC_IMG:     'src/assets/img/**/*',
-  OUT_SLIM:    'dist/',
-  OUT_CSS:     'dist/assets/css',
-  OUT_JS:      'dist/assets/js',
-  OUT_IMG:     'dist/assets/img',
+  SRC_IMG:  'src/assets/img/**/*',
+  OUT_SLIM: 'dist/',
+  OUT_CSS:  'dist/assets/css',
+  OUT_JS:   'dist/assets/js',
+  OUT_IMG:  'dist/assets/img',
 };
 
 

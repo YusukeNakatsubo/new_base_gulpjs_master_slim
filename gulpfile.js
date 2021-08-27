@@ -5,26 +5,26 @@
 */
 const { watch, series, task, gulp, src, dest, parallel } = require('gulp')
 // Plugins
-const GULP_NOTIFY               = require('gulp-notify')
-const GULP_PLUMBER              = require('gulp-plumber')
-const GULP_BROWSER_SYNC         = require('browser-sync').create()
-const GULP_SASS                 = require('gulp-sass')(require('sass'))
-const GULP_SOURCEMAPS           = require('gulp-sourcemaps')
-const GULP_SASS_GLOB            = require('gulp-sass-glob')
-const GULP_AUTOPREFIXER         = require('gulp-autoprefixer')
-const GULP_BABEL                = require('gulp-babel')
-const GULP_UGLIFY               = require('gulp-uglify-es').default
-const WEBPACK                = require('webpack')
-const GULP_WEBPACK_STREAM    = require('webpack-stream')
-const WEB_PACK_CONFIG        = require('./webpack.config');
-const GULP_SLIM                 = require('gulp-slim')
-const GULP_IMAGE                = require('gulp-image')
-const GULP_CHANGED              = require('gulp-changed')
-const GULP_HTMLLINT             = require('gulp-htmllint')
-const FANCY_LOG                 = require('fancy-log')
-const ANSI_COLORS               = require('ansi-colors')
-const GULP_CSSLINT              = require('gulp-csslint')
-const GULP_ESLINT               = require('gulp-eslint')
+const GULP_NOTIFY          = require('gulp-notify')
+const GULP_PLUMBER         = require('gulp-plumber')
+const GULP_BROWSER_SYNC    = require('browser-sync').create()
+const GULP_SASS            = require('gulp-sass')(require('sass'))
+const GULP_SOURCEMAPS      = require('gulp-sourcemaps')
+const GULP_SASS_GLOB       = require('gulp-sass-glob')
+const GULP_AUTOPREFIXER    = require('gulp-autoprefixer')
+const GULP_BABEL           = require('gulp-babel')
+const GULP_UGLIFY          = require('gulp-uglify-es').default
+const WEBPACK              = require('webpack')
+const GULP_WEBPACK_STREAM  = require('webpack-stream')
+const WEB_PACK_CONFIG      = require('./webpack.config');
+const GULP_SLIM            = require('gulp-slim')
+const GULP_IMAGE           = require('gulp-image')
+const GULP_CHANGED         = require('gulp-changed')
+const GULP_HTMLLINT        = require('gulp-htmllint')
+const FANCY_LOG            = require('fancy-log')
+const ANSI_COLORS          = require('ansi-colors')
+const GULP_CSSLINT         = require('gulp-csslint')
+const GULP_ESLINT          = require('gulp-eslint')
 
 
 /*
@@ -106,12 +106,13 @@ const compileSass = () =>
 //   .pipe(GULP_BROWSER_SYNC.stream())
 // -> Migrate to webpack
 
+// 'return' is always required. Why?
 const bundleJs = () => {
-  GULP_WEBPACK_STREAM(WEB_PACK_CONFIG, WEBPACK)
-    .pipe(GULP_SOURCEMAPS.init())
-    .pipe(GULP_SOURCEMAPS.write('maps'))
-    .pipe(dest(GULP_PATHS.OUT_JS))
-    .pipe(GULP_BROWSER_SYNC.stream())
+  return GULP_WEBPACK_STREAM(WEB_PACK_CONFIG, WEBPACK).on('error',(e)=>{this.emit('end')})
+  .pipe(GULP_SOURCEMAPS.init())
+  .pipe(GULP_SOURCEMAPS.write('maps'))
+  .pipe(dest(GULP_PATHS.OUT_JS))
+  .pipe(GULP_BROWSER_SYNC.stream())
 }
 
 
